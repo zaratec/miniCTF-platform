@@ -1,0 +1,43 @@
+---
+# Playbook that sets up users for a running instance of MongoDB
+# Heavily influenced by: https://github.com/UnderGreen/ansible-role-mongodb
+# Using a subset of @UnderGreen's work
+
+# Restart to ensure Client Access Control configuration is enabled
+- name: mongodb restart
+  service:
+    name: "{{ mongodb_daemon_name }}"
+    state: restarted
+
+# pymongo is required by the following tasks to create users
+- name: install pymongo for use by ansible
+  package:
+    name: python-pymongo
+    state: present
+
+# uses Client Access Control Localhost Exception for first user
+# as described: https://docs.mongodb.org/manual/tutorial/enable-authentication/
+# ignore errors so subsequent runs don't fail due to the lack of
+# a login_user and login_password
+- name: Create intital administrative user
+  mongodb_user:
+    database: admin
+    name: "{{ initial_admin_name }}"
+    password: "{{ initial_admin_password }}"
+    roles: "userAdminAnyDatabase"
+    login_port: "{{ mongodb_conf_port }}"
+  ignore_errors: True
+  no_log: True
+
+- name: Create normal users
+  mongodb_user:
+    database: "{{ item.database }}"
+    name: "{{ item.name }}"
+    password: "{{ item.password }}"
+    roles: "{{ item.roles }}"
+    login_port: "{{ mongodb_conf_port }}"
+    login_user: "{{ initial_admin_name }}"
+    login_password: "{{ initial_admin_password }}"
+  with_items:
+    - "{{ mongodb_users }}"
+  no_log: True

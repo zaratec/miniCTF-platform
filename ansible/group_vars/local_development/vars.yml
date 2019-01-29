@@ -1,0 +1,50 @@
+---
+# Variables shared across all development hosts
+
+# vagrant/vagrant is the default configuration for Vagrant boxes
+ansible_user:     vagrant
+ansible_ssh_pass: vagrant
+
+
+##
+# Web settings (env specific)
+##
+web_fqdn: "localhost"
+web_address: "http://{{ lookup('env','WIP') or '192.168.2.2' }}"
+nginx_server_name: "_"
+flask_app_server_name: "{{ web_fqdn }}"
+web_address_internal: "{{ web_address }}"
+
+# optional web automation
+enable_basic_auth:      False
+auto_add_shell:         True
+auto_load_problems:     True
+auto_start_competition: True
+
+
+###
+# Shell Settings (env specific)
+###
+shell_hostname: "{{ lookup('env','SIP') or '192.168.2.3' }}"
+shell_name: Local-Development-Shell   # no spaces
+shell_ip: "{{ shell_hostname }}"
+shell_user: "{{ ansible_user }}"
+shell_pass: "{{ ansible_ssh_pass }}"
+shell_manager_deploy_secret: "**insecure-secret**"
+
+# default insecure "vagrant" password (mkpasswd --method=SHA-512 vagrant)
+shell_admin_password_crypt: "$6$0GcSqMClzx$qEKEiL78VE/Xe0gzuGGuWyUqAlZMObkGnRYwHo4.vSUlvWt6aA7PBH1oGDsOQlykFNScEdEhrirD5oFLOHH011"
+
+# Python Virtualenv settings
+virtualenv_dir: "/picoCTF-env"
+
+##
+# Database settings (env specific)
+##
+db_private_ip: 127.0.0.1
+mongodb_conf_auth: False
+
+##
+# Problem Settings
+# use role defaults (example problems and challenge-sampler bundle)
+##

@@ -1,0 +1,12 @@
+---
+# Handlers that reload and restart a running instance of MongoDB
+
+- name: mongodb reload
+  service:
+    name: "{{ mongodb_daemon_name }}"
+    state: reloaded
+
+- name: mongodb restart
+  service:
+    name: "{{ mongodb_daemon_name }}"
+    state: restarted

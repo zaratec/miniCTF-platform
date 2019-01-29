@@ -1,0 +1,47 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  config.vm.define "db", primary: true do |db|
+    # For efficiency start with base box with dependencies installed
+    # Could be changed to a completely fresh base with:
+    # db.vm.box = "debian/contrib-jessie64"
+    db.vm.box = "picoCTF/web-base"
+    db.vm.network "private_network", ip: "10.0.5.20"
+    # Disable synced folder to simulate remote environment
+    db.vm.synced_folder ".", "/vagrant", disabled: true
+    db.vm.provider "virtualbox" do |vb|
+        vb.name = "picoCTF-db-testing"
+        vb.customize ["modifyvm", :id, "--memory", "1024"]
+    end
+  end
+
+  config.vm.define "shell", primary: true do |shell|
+    shell.vm.box = "picoCTF/shell-base"
+    shell.vm.network "private_network", ip: "10.0.5.11"
+    shell.vm.synced_folder ".", "/vagrant", disabled: true
+    shell.vm.provider "virtualbox" do |vb|
+        vb.name = "picoCTF-shell-testing"
+        vb.customize ["modifyvm", :id, "--memory", "1024"]
+    end
+  end
+
+  config.vm.define "web", primary: true do |web|
+    web.vm.box = "picoCTF/web-base"
+    web.vm.network "private_network", ip: "10.0.5.10"
+    web.vm.synced_folder ".", "/vagrant", disabled: true
+    web.vm.provider "virtualbox" do |vb|
+        vb.name = "picoCTF-web-testing"
+        vb.customize ["modifyvm", :id, "--memory", "1024"]
+    end
+    web.vm.provision "shell", privileged: false, inline: <<-EOF
+        echo "Local Testing Vagrant Boxes Created!"
+        echo "picoCTF-web-testing, picoCTF-shell-testing, picoCTF-db-testing"
+        echo " "
+        echo "Now you must provision them with ansible (as you would a remote"
+        echo "environement. See ../../ansible/README.md for more details"
+        EOF
+  end
+
+end

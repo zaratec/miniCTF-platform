@@ -1,0 +1,24 @@
+---
+# Playbook that installs base utilities we would want on any server
+
+- name: Update apt
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Install base packages
+  apt:
+    state: present
+    pkg: [
+        'aptitude',         # required for apt module
+        'curl',
+        'git',
+        'python-passlib',   # required for htpasswd module
+        'tmux',
+        'vim-nox',
+        # monitoring tools
+        'htop',
+        'iftop',
+        'ncdu',
+        'nethogs',
+        'vnstat']

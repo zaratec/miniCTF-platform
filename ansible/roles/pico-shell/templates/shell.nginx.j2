@@ -1,0 +1,22 @@
+# {{ ansible_managed }}
+
+server {
+    listen 80;
+    server_name _;
+    root   /usr/share/nginx/html;
+
+    location ~ /ShellInABox.js { alias {{ shellinabox_js_path }}; }
+    
+    location /shell {
+        # make sure this port is consistent with shellinabox.conf
+        proxy_pass {{shellinabox_server_path }};
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location / {
+        types        { }
+        default_type application/octet-stream;
+    }
+} 

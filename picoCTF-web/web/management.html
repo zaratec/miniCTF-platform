@@ -1,0 +1,157 @@
+---
+layout: default
+title: Admin Management
+post_scripts:
+-  js/react-utils.js
+-  js/management-exceptions.js
+-  js/management-problems-graphs.js
+-  js/management-problems.js
+-  js/management-shell.js
+-  js/management-settings.js
+-  js/management-competition-checks.js
+-  js/management.js
+startup_functions:
+ - redirectIfNotLoggedIn()
+ - redirectIfNotAdmin()
+---
+
+<link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-switch.min.css">
+<link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="/js/libs/bootstrap-switch.min.js"></script>
+<script type="text/javascript" src="/js/libs/jquery-sticky-tabs.js"></script>
+<script type="text/javascript" src="/js/libs/Chart.min.js"></script>
+<script type="text/javascript" src="/js/libs/moment.min.js"></script>
+<script type="text/javascript" src="/js/libs/bootstrap-datetimepicker.min.js"></script>
+
+<script type="text/template" id="problem-category-options-template">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                Category Options
+            </h4>
+        </div>
+        <div class="panel-body">
+            <% var categories = _.keys(_.groupBy(problems, function(problem) { return problem.category; })); %>
+            <% _.each(categories, function(category) { %>
+            <div class="row">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <input type="checkbox" data-category="<%= category  %>"
+                               class="problem-category-state" data-on-text="Show"
+                               data-off-text="Hide" data-size="small" aria-label="..." checked >
+                    </span>
+                    <p class="pad"> <%= category %> </p>
+                </div>
+            </div>
+            <% }); %>
+        </div>
+    </div>
+</script>
+
+<script type="text/template" id="problem-update-queue-template">
+  <% if(changes.length > 0) { %>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                Pending Updates
+            </h4>
+        </div>
+        <div class="panel-body">
+            <% _.each(changes, function(change) { %>
+            <div class="row pad">
+                <p><%= change.display %></p>
+                    <div class="pull-right">
+                        <span class="glyphicon glyphicon-remove text-danger"></span>
+                    </div>
+            </div>
+            <% }); %>
+        </div>
+        <div class="panel-footer">
+            <button id="process-problem-queue-button" type="button" class="btn btn-default">Process Updates</button>
+        </div>
+    </div>
+  <% } %>
+</script>
+
+<script type="text/template" id="management-tabs-template">
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#problems">Problems</a></li>
+    <li><a data-toggle="tab" href="#users">Users</a></li>
+    <li><a data-toggle="tab" href="#exceptions">Exceptions</a></li>
+    <!-- <li><a data-toggle="tab" href="#settings">CTF Settings</a></li> -->
+  </ul>
+  <div class="tab-content">
+      <div id="problems" class="tab-pane fade in active">
+          <div class="full-container">
+              <div class="row pad">
+                  <!--
+                  <div class="info-display col-md-4 pull-left">
+                      <div class="input-group">
+                          <input class="problem-options" type="checkbox" id="disabled-problems" data-label-text="Disabled" checked>
+                      </div>
+                  </div>
+                  -->
+                  <div class="input-group input-group-sm col-md-3 pull-right">
+                      <span class="input-group-addon" id="sizing-addon3">
+                          <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                      </span>
+                      <input id="problem-search" type="text" class="form-control" placeholder="Problem..." aria-describedby="sizing-addon3">
+                  </div>
+              </div>
+              <div id="problem-list"></div>
+          </div>
+      </div>
+      <div id="users" class="tab-pane fade">
+          <p>Users Test</p>
+          <div id="test"></div>
+      </div>
+      <div id="exceptions" class="tab-pane fade">
+          <div id="exceptions-mountpoint"></div>
+      </div>
+  </div>
+</script>
+
+<script type="text/template" id="problem-tab-template">
+    <%
+    var problem_width = 4;
+    var show_disabled = $("#disabled-problems").val() === "on";
+    var applicable_problems = _.filter(problems, problemFilter);
+    if(data.problems === undefined) { data.problems = {}; }
+    %>
+    <div class="problem-list panel-group">
+        <% _.each(applicable_problems, function(problem, i) { %>
+        <% //console.log(problem); %>
+        <div class="pad col-sm-6 col-md-<%- problem_width %> col-lg-<%- Math.floor(3*problem_width/4) %>">
+            <% window.data.problems[problem.pid] = problem %>
+            <%= renderProblem({problem: problem}) %>
+        </div>
+        <% }); %>
+    </div>
+</script>
+
+<script type="text/template" id="problem-template">
+    <%
+    var panel_type = !problem.disabled ? "panel-info" : "panel-default";
+    var switch_state = !problem.disabled ? "checked" : "";
+    %>
+    <div class="panel <%= panel_type %>">
+        <div class="problem-header panel-heading">
+            <h4 class="panel-title">
+                <%- problem.name %>
+                <!-- Should be a better way to do this. -->
+                <div class="pull-right">
+                    <input id="<%- problem.pid %>" class="problem-state" type="checkbox" data-size="mini" <%= switch_state %> >
+                </div>
+            </h4>
+        </div>
+        <div class="panel-collapse collapse in" id="<%= problem.pid %>">
+            <div class="panel-body">
+                Panel content
+            </div>
+        </div>
+    </div>
+</script>
+
+<div class="container">
+    <div class="col-md-12" style="width: 100%" id="management-tabs"></div>
+</div>

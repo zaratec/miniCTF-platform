@@ -1,0 +1,37 @@
+---
+# Playbook that installs and configures the gunicorn service to run the
+# picoCTF-web application. As described in the gunicorn docs:
+# http://docs.gunicorn.org/en/stable/deploy.html#systemd
+
+- name: Template gunicorn.service
+  template:
+    src: gunicorn.service.j2
+    dest: "/etc/systemd/system/gunicorn.service"
+    owner: root
+    group: root
+
+- name: Template gunicorn.socket
+  template:
+    src: gunicorn.socket.j2
+    dest: "/etc/systemd/system/gunicorn.socket"
+    owner: root
+    group: root
+
+- name: Template gunicorn.conf
+  template:
+    src: gunicorn.conf.j2
+    dest: "/etc/tmpfiles.d/gunicorn.conf"
+    owner: root
+    group: root
+
+- name: Get systemd-tmpfiles to create /run/gunicorn
+  command: systemd-tmpfiles --create
+
+- name: Get systemd to pickup gunicorn.service
+  command: systemctl daemon-reload
+
+- name: Ensure gunicorn is enabled and restart
+  service:
+    name: gunicorn.service
+    state: restarted
+    enabled: yes

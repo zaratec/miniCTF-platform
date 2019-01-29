@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" style="100%">
+
+  {% include head.html %}
+
+<body>
+
+    {% include modal.html %}
+
+    <div class="boxed">
+        {% include header.html %}
+
+		{% if page.title_label != "hide" %}
+		<header class="page-title">
+			<div class="container">
+				<h1 id="title">{{ page.title }}</h1>
+			</div>
+		</header>
+		{% endif %}
+
+        <div id="main-content">
+        {{ content }}
+        </div>
+
+        {% include footer.html %}
+
+        {% for js_file in page.post_scripts %}
+        <script src="{{ js_file }}"></script>
+        {% endfor %}
+
+        <script>
+            $(function () {
+                {% for func in page.startup_functions %}
+                {{ func }};
+                {% endfor %}
+            })
+        </script>
+    </div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  config.vm.define "jump", primary: true do |jump|
+
+    jump.vm.box = "picoCTF/shell-base"
+
+    jump.vm.synced_folder ".", "/vagrant", disabled: true
+    jump.vm.synced_folder ".", "/picoCTF"
+
+    jump.vm.provision "shell", path: "../provision_scripts/install_ansible.sh"
+    jump.vm.provision "shell", path: "../provision_scripts/install_terraform.sh", privileged: false
+    jump.vm.provision "shell", path: "../provision_scripts/install_jump_utilities.sh"
+
+    jump.vm.provider "virtualbox" do |vb|
+        vb.name = "picoCTF-jump-dev"
+        vb.customize ["modifyvm", :id, "--memory", "2048"]
+    end
+  end
+
+end

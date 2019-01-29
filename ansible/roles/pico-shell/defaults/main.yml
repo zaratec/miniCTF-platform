@@ -1,0 +1,35 @@
+---
+# Defaults for the picoCTF-web role. These are the lowest priority variables
+# and can easily be overridden in group_vars, host_vars, or the command line.
+
+# pico_base_dir set in common.yml
+shell_manager_dir:  "{{pico_base_dir}}/picoCTF-shell"
+
+###
+# Shellinabox configuration
+###
+shellinabox_js_path: "/opt/hacksports/shellinabox/ShellInABox.js"
+
+# configure nginx
+shell_site_config_name: "shell"
+shellinaboxd_port: "4242"
+shellinabox_server_path: "http://127.0.0.1:{{ shellinaboxd_port }}/"
+
+# problem settings
+deb_dir:    "/picoCTF-debs"
+bundle_dir: "/picoCTF-bundles"
+
+##
+# Problem Settings
+# These will only be used if `problem_source_dirs` and `bundles` are not
+# specified in an environmental configuration AND `auto_load_problems` is True
+##
+problem_source_dirs:
+  - "{{ pico_base_dir }}/problems/examples"
+
+bundles:
+  - {
+    source: "{{ pico_base_dir }}/problems/bundles/challenge-sampler.json",
+    name: "challenge-sampler",
+    instances: 2
+  }

@@ -1,0 +1,9 @@
+# {{ ansible_managed }}
+
+auth = {{ mongodb_conf_auth|to_nice_json }}
+bind_ip = {{ mongodb_conf_bind_ip }}
+dbpath = {{ mongodb_conf_dbpath }}
+journal = {{ mongodb_conf_journal|to_nice_json }}
+logappend = {{ mongodb_conf_logappend|to_nice_json }}
+logpath = {{ mongodb_conf_logpath }}
+port = {{ mongodb_conf_port }}

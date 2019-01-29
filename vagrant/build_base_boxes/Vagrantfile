@@ -1,0 +1,68 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  config.vm.define "shell", primary: true do |shell|
+
+    # Vanilla debian base box from: https://atlas.hashicorp.com/debian/
+    # includes vboxsf module for synchronization
+    shell.vm.box = "debian/contrib-jessie64"
+    shell.vm.network "private_network", ip: "192.168.2.3"
+
+    # Only since this is a base box.
+    shell.ssh.insert_key = false
+
+    # Need the code root to run the ansible_local provisioner
+    shell.vm.synced_folder ".", "/vagrant", disabled: true
+    shell.vm.synced_folder "../..", "/picoCTF"
+
+    # Run only the "dependency" task of the playbooks for the picoCTF-shell server
+    shell.vm.provision "shell", path: "../provision_scripts/install_ansible.sh"
+	shell.vm.provision :ansible_local do |ansible|
+        ansible.playbook            = "site.yml"
+        ansible.limit               = "shell"
+        ansible.tags                = "dependency"
+	    ansible.provisioning_path   = "/picoCTF/ansible/"
+        ansible.inventory_path      = "/picoCTF/ansible/inventories/local_development"
+    end
+
+    shell.vm.provision "shell", path: "../provision_scripts/minimize_box.sh"
+    
+    shell.vm.provider "virtualbox" do |vb|
+        vb.name = "picoCTF-shell-base-builder"
+        vb.customize ["modifyvm", :id, "--memory", "2048"]
+    end
+  end
+
+  config.vm.define "web", primary: true do |web|
+    
+    web.vm.box = "debian/contrib-jessie64"
+    web.vm.network "private_network", ip: "192.168.2.2"
+
+    # Only since this is a base box.
+    web.ssh.insert_key = false
+    
+    # Need the code root to run the ansible_local provisioner
+    web.vm.synced_folder ".", "/vagrant", disabled: true
+    web.vm.synced_folder "../..", "/picoCTF"
+
+    # Run only the "dependency" task of the playbooks for the picoCTF-web/db server
+    web.vm.provision "shell", path: "../provision_scripts/install_ansible.sh"
+	web.vm.provision :ansible_local do |ansible|
+        ansible.playbook            = "site.yml"
+        ansible.limit               = ["db","web"]
+        ansible.tags                = "dependency"
+	    ansible.provisioning_path   = "/picoCTF/ansible/"
+        ansible.inventory_path      = "/picoCTF/ansible/inventories/local_development"
+    end
+
+    web.vm.provision "shell", path: "../provision_scripts/minimize_box.sh"
+
+    web.vm.provider "virtualbox" do |vb|
+        vb.name = "picoCTF-web-base-builder"
+        vb.customize ["modifyvm", :id, "--memory", "2048"]
+    end
+  end
+
+end

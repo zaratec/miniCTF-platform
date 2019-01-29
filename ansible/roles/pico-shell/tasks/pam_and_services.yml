@@ -1,0 +1,131 @@
+---
+# Playbook that installs and configures services on the shell_server
+
+# Extracted from picoCTF-platform/scripts/shell_setup.sh
+- name: Template shellinaboxd Service file
+  template:
+    src: "shellinaboxd.service.j2"
+    dest: "/lib/systemd/system/shellinaboxd.service"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Enable shellinaboxd Service
+  service:
+    name: "shellinaboxd.service"
+    enabled: yes
+
+- name: Start shellinaboxd Service
+  service:
+    name: "shellinaboxd.service"
+    state: started
+
+- name: Copy over pam configs
+  copy:
+    src: common-auth
+    dest: /etc/pam.d/common-auth
+    owner: root
+    group: root
+    mode: 0644
+
+- name: update pam sshd configs
+  command: bash -c "grep \"pam_session.py\" /etc/pam.d/sshd || echo \"session [success=ok default=bad] pam_python.so pam_session.py\" >> /etc/pam.d/sshd"
+
+- name: Ensure /lib/security/ directory exists
+  file:
+    path: /lib/security/
+    state: directory
+    owner: root
+    group: root
+
+- name: Copy pam_auth.py to deployed location
+  copy:
+    src: pam_auth.py
+    dest: "/lib/security/pam_auth.py"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Copy pam_session.py to deployed location
+  copy:
+    src: pam_session.py
+    dest: "/lib/security/pam_session.py"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Disable user crontab with whitelist
+  copy:
+    content: ""
+    dest: /etc/cron.allow
+    force: no
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Copy over sshd configs
+  copy:
+    src: sshd_config
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Restart ssh service to pickup new configs
+  service:
+    name: sshd
+    state: restarted
+
+- name: Copy over limits.conf
+  copy:
+    src: limits.conf
+    dest: /etc/security/limits.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Copy over sysctl.conf
+  copy:
+    src: sysctl.conf
+    dest: /etc/sysctl.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Reload sysctl
+  command: sysctl --system
+
+- name: Restart networking service to pickup new configs
+  command: systemctl restart networking
+
+- name: Copy over journald.conf
+  copy:
+    src: journald.conf
+    dest: /etc/systemd/journald.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Restart systemd-journald service to pickup new configs
+  service:
+    name: systemd-journald
+    state: restarted
+
+- name: Add competitiors group
+  group:
+    name: competitors
+    state: present
+
+- name: Copy over login.defs
+  copy:
+    src: login.defs
+    dest: /etc/login.defs
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Disable systemd.logind permenantly by masking
+  systemd:
+    name: systemd-logind.service
+    state: stopped
+    masked: yes

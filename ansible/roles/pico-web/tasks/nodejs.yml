@@ -1,0 +1,43 @@
+---
+# Playbook that installs and configures node dependencies
+# follows the official instalation guide
+# https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions
+
+- name: Check if nodejs repository is installed
+  stat:
+    path: /etc/apt/sources.list.d/nodesource.list
+  register: nodejs
+
+- name: Download nodejs 4.x setup script (LTS)
+  get_url:
+    url: "https://deb.nodesource.com/setup_8.x"
+    dest: "/tmp/node_setup.sh"
+    mode: 0700
+
+# Since shell commands are not idempotent we manually
+# check above if already have the nodejs repo (implying
+# all nodejs steps where previously successful)
+- name: Setup nodejs repositories
+  shell: "/tmp/node_setup.sh"
+  become: yes
+  when: nodejs.stat.exists == False
+
+- name: Update apt cache
+  apt:
+    update_cache: yes
+
+- name: Install nodejs and dependencies
+  apt:
+    name: ['nodejs', 'build-essential']
+    state: latest
+
+# Extracted from picoCTF-platform/scripts/web_setup.sh
+- name: Install nodejs packages (globally)
+  npm:
+    name: "{{ item }}"
+    global: yes
+  with_items:
+    - coffee-script
+    - react-tools
+    - jsxhint
+    - coffee-react

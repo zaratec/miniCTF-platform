@@ -1,0 +1,414 @@
+.btn-sq {
+  max-width: 80px !important;
+  max-height: 80px !important;
+  font-size: 48px;
+}
+
+.hard-right {
+    padding-left: 70px !important;
+}
+
+.spin {
+  -webkit-animation: spin 2s infinite linear;
+  -moz-animation: spin 2s infinite linear;
+  -o-animation: spin 2s infinite linear;
+  animation: spin 2s infinite linear;
+}
+
+@-moz-keyframes spin {
+  from {
+    -moz-transform: rotate(0deg);
+  }
+  to {
+    -moz-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.table-fixed thead {
+  width: 97%;
+}
+.table-fixed tbody {
+  height: 550px;
+  overflow-y: auto;
+  width: 100%;
+}
+.table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
+  display: block;
+}
+.table-fixed tbody td, .table-fixed thead > tr> th {
+  float: left;
+  border-bottom-width: 0;
+}
+
+.navbar {
+    /*height: 90px;*/
+}
+
+@media (min-width: 768px) {
+  #nav-profile-container {
+    position: absolute;
+    top: 0;
+    right: 10%;
+  }
+}
+
+.progress {
+    padding: 0px !important;
+}
+
+.category-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.progress-container {
+    padding-right: 0px !important;
+}
+
+.progress-bar>span>span {
+    color: #000 !important;
+}
+
+.progress-label {
+    padding-left: 5px !important;
+}
+
+.collapsible-information {
+    padding-top: 10px !important;
+}
+
+.collapsible-information-chevron {
+    padding-left: 10px !important;
+}
+
+.problem-description {
+    padding-left: 10px;
+}
+
+.classifier-item {
+    padding-left: 30px !important;
+    color: #000 !important;
+    font-weight: normal !important;
+}
+
+.black-text {
+    color: #000 !important;
+    font-weight: normal !important;
+}
+
+#main-content {
+    min-height: 35vh;
+}
+
+#top-team-score-progression-graph {
+    padding-top: 30px;
+}
+
+.pad {
+    padding: 5px;
+}
+
+@media (max-width: 600px) {
+    #top-team-score-progression-graph {
+        display:none;
+    }
+}
+
+.scoreboard-table {
+    background-color: white;
+}
+
+.team-photo-img {
+    width: 150px;
+}
+
+.btn-group-separate .btn {
+    border-top-right-radius: 4px !important;
+    border-bottom-right-radius: 4px !important;
+    border-bottom-left-radius: 4px !important;
+    border-top-left-radius: 4px !important;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+a.navbar-brand {
+    max-width: 250px;
+}
+
+.header-logo {
+    height: 100%;
+}
+
+.button-column {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.login-changer {
+    text-align: right;
+}
+
+.hidden-page {
+    display: none;
+}
+
+img {
+    max-width: 100%;
+}
+
+#main-content h1,
+#main-content h2,
+#main-content h3,
+#main-content h4,
+#main-content h5, #main-content h6 {
+    color: #000000;
+    font-weight: 500;
+}
+
+.lead {
+   color: #000000;
+   font-weight: 500;
+}
+
+.diagram {
+    background-color:#25acb4;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-radius: 10px;
+}
+
+img.logo {
+	background-color: white;
+	display: block;
+	vertical-align: middle;
+	border-radius: 15px;
+	border-style: solid;
+	border-width: 5px;
+	border-color: white;
+	margin: auto;
+}
+
+.game-image-item, .logo-column-item {
+    text-align: center;
+    vertical-align: middle;
+}
+
+@media (max-width: 992px) {
+    .logo-column-item {
+        margin-bottom: 30px;
+    }
+}
+
+img.logo-landscape {
+    max-width: 400px;
+    width: 100%;
+}
+
+.home-section {
+	margin-bottom: 0px;
+}
+
+.wrap-pattern {
+	background-color: #161415;
+	border-bottom: none;
+}
+
+.team-visualization-enabler {
+    cursor: pointer;
+}
+
+.delete-group-span {
+    cursor: pointer;
+}
+
+.leave-group-span {
+    cursor: pointer;
+}
+
+.deleter-column {
+    width: 30px;
+}
+
+.image-achievement {
+    width: 100px;
+}
+
+#footer {
+    margin-top: 60px;
+}
+
+.footer-widget {
+    text-align: left;
+    margin-bottom: 0px;
+}
+
+.show-when-logged-out {
+    display: none;
+}
+
+.alert-success {
+    background-color: #F5F5F5;
+}
+
+.alert {
+    padding: 7px;
+    border-radius: 10px;
+}
+
+.tab-pane-outline {
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    border-radius: 0px 0px 5px 5px;
+    padding: 10px;
+}
+
+.nav-tabs {
+    margin-bottom: 0;
+}
+
+.team-name {
+    margin-top: 8px;
+    text-align: center;
+    font-size: larger;
+    font-weight: 700;
+}
+
+.team-role {
+    text-align: center;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 200px;
+}
+
+.team-photo {
+    text-align: center;
+}
+
+/* Style for charts that are disabled before the competition */
+
+.faded-chart {
+    opacity: 0.25;
+    filter: alpha(opacity=25);
+}
+
+.hover-label {
+    position: absolute;
+    background-color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.fuzzy-bottom {
+    position: absolute;
+    background: rgba(255,255,255,1);
+    background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(209,209,209,0) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255,255,255,1)), color-stop(100%, rgba(209,209,209,0)));
+    background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(209,209,209,0) 100%);
+    background: -o-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(209,209,209,0) 100%);
+    background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(209,209,209,0) 100%);
+    background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(209,209,209,0) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#d1d1d1', GradientType=0 );
+}
+
+.fuzzy-top {
+    position: absolute;
+    background: rgba(209,209,209,0);
+    background: -moz-linear-gradient(top, rgba(209,209,209,0) 0%, rgba(255,255,255,1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(209,209,209,0)), color-stop(100%, rgba(255,255,255,1)));
+    background: -webkit-linear-gradient(top, rgba(209,209,209,0) 0%, rgba(255,255,255,1) 100%);
+    background: -o-linear-gradient(top, rgba(209,209,209,0) 0%, rgba(255,255,255,1) 100%);
+    background: -ms-linear-gradient(top, rgba(209,209,209,0) 0%, rgba(255,255,255,1) 100%);
+    background: linear-gradient(to bottom, rgba(209,209,209,0) 0%, rgba(255,255,255,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d1d1d1', endColorstr='#ffffff', GradientType=0 );
+}
+
+/* Team page forms */
+
+.form-inline .class-class-name {
+    width: 160px;
+}
+
+.form-inline .class-teacher-username {
+    width: 160px;
+}
+
+/* Registration */
+
+#user-registration-form {
+	padding: 0 5%;
+}
+
+/* Panels */
+
+.panel-primary {
+    border-color: #1B7B81;
+}
+
+.panel-primary > .panel-heading {
+    background-color: #1B7B81;
+    background: #1B7B81;
+    border-color: #1B7B81;
+}
+
+.panel-primary > .panel-heading+.panel-collapse > .panel-body {
+   border-color: #1B7B81;
+}
+
+.radio-bar {
+    display: inline-block;
+    position: absolute;
+    top: 20px;
+    left: 50px;
+    border-bottom: 1px solid black;
+    z-index: 1;
+    width: 540px;
+    height: 2px;
+}
+
+.feedback-label {
+    width:115px;
+    display:inline-block;
+    text-align:center;
+    white-space:nowrap;
+    overflow:visible;
+    vertical-align: top;
+    margin-bottom: 10px;
+}
+
+.feedback-radio {
+    margin-top:10px;
+    display: inline-block;
+    width:115px;
+    text-align:center;
+    z-index: 2;
+}
+
+.glyphicon-thumbs-up.active {
+    color:green;
+}
+
+.glyphicon-thumbs-down.active {
+    color:red;
+}

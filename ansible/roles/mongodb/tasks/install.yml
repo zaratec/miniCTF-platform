@@ -1,0 +1,28 @@
+---
+# Playbook that installs MongoDB and associated utilities
+# TODO: Consolidate mongodb tasks into web
+
+- name: Add apt key by id
+  apt_key:
+    keyserver: "{{mongodb_apt_keyserver}}"
+    id: "{{mongodb_apt_key_id}}"
+
+- name: Add repository
+  apt_repository:
+    repo: "{{ mongodb_repo }}"
+    state: present
+
+- name: Update apt
+  apt:
+    update_cache: yes
+
+- name: Install mongo
+  apt:
+    name: ['mongodb-org']  # from PPA
+    state: present
+
+- name: Ensure mongodb is running
+  service:
+    name: "{{ mongodb_daemon_name }}"
+    state: started
+    enabled: yes

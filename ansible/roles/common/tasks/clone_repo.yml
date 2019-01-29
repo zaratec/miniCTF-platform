@@ -1,0 +1,28 @@
+---
+# Playbook that clones the codebase to all servers
+
+- name: Copy over deployment private key file
+  copy:
+    src: "group_vars/deploy_keys/{{ deploy_private_key_file }}"
+    dest: "/home/{{ ansible_user }}/.ssh/{{ deploy_private_key_file }}"
+    mode: 0600
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+  when: private_repo
+
+- name: Clone picoCTF (private)
+  git: 
+    repo: "{{ pico_repo }}"
+    version: "{{ pico_branch }}"
+    dest: "{{ pico_base_dir}}"
+    accept_hostkey: yes
+    key_file: "/home/{{ ansible_user }}/.ssh/{{ deploy_private_key_file }}"
+  when: private_repo
+
+- name: Clone picoCTF (public)
+  git: 
+    repo: "{{ pico_repo }}"
+    version: "{{ pico_branch }}"
+    dest: "{{ pico_base_dir}}"
+    accept_hostkey: yes
+  when: not private_repo

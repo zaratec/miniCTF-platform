@@ -1,0 +1,39 @@
+---
+# Playbook that configures nginx on picoCTF-shell
+
+- name: Add picoCTF site configuration to nginx
+  template: 
+    src: shell.nginx.j2
+    dest: "/etc/nginx/sites-available/{{ shell_site_config_name }}"
+    backup: yes
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Enable picoCTF-shell site configuration
+  file:
+    src: "/etc/nginx/sites-available/{{ shell_site_config_name }}"
+    dest: "/etc/nginx/sites-enabled/{{ shell_site_config_name }}"
+    owner: root
+    group: root
+    state: link
+  notify :
+    - nginx restart
+
+- name: Disable default nginx site configuration
+  file:
+    path: "/etc/nginx/sites-enabled/default"
+    state: absent
+
+# From shell_manager data files
+- name: Ensure shellinabox directrory exists
+  file:
+    path: /opt/hacksports/shellinabox/
+    state: directory
+    owner: root
+    group: root
+
+- name: Copy shellinabox.js to deployed location
+  copy:
+    src:  "ShellInABox.js"
+    dest: "{{ shellinabox_js_path }}"

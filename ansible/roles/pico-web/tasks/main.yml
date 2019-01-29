@@ -1,0 +1,30 @@
+---
+# Playbook that installs and configures picoCTF-web servers
+
+- include: dependencies.yml
+  tags:
+    - network
+    - dependency
+
+- include: nodejs.yml
+  tags:
+    - network
+    - dependency
+
+- include: nginx.yml
+
+- include: picoCTF-webapp.yml
+  tags:
+    - devploy
+
+- include: gunicorn.yml
+
+- include: daemons.yml
+
+- include: auto_configure.yml
+
+- name: Ensure nginx is running
+  service:
+    name: nginx
+    state: started
+    enabled: yes

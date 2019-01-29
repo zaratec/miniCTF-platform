@@ -1,0 +1,27 @@
+---
+# Playbook that installs and configures mongodb
+# References:
+# https://github.com/ansible/ansible-examples/tree/master/mongodb
+# https://docs.mongodb.org/manual/tutorial/install-mongodb-on-debian/
+# https://docs.mongodb.org/ecosystem/platforms/amazon-ec2/
+
+- include: install.yml
+  tags:
+    - network
+    - dependency
+
+- include: configure_storage.yml
+
+- include: configure_mongo.yml
+
+# Default to running the database with authentication.  The development
+# environment is the only place `mongodb_conf_auth` should be false
+- include: configure_auth.yml
+  when: mongodb_conf_auth
+
+- name: Ensure mongodb is started
+  service:
+    name: "{{ mongodb_daemon_name }}"
+    state: started
+
+- include: disable_thp.yml

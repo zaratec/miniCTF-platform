@@ -1,0 +1,19 @@
+{
+    "banned_ports": [
+        {
+            "end": 1025,
+            "start": 0
+        },
+        {
+            "end": 4242,
+            "start": 4242
+        }
+    ],
+    "default_user": "hacksports",
+    "deploy_secret": "{{ shell_manager_deploy_secret }}",
+    "hostname": "{{ shell_ip }}",
+    "obfuscate_problem_directories": true,
+    "problem_directory_root": "/problems/",
+    "web_root": "/usr/share/nginx/html/",
+    "web_server": "{{ web_address_internal }}"
+}

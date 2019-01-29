@@ -1,0 +1,309 @@
+---
+layout: default
+title: Classroom
+post_scripts:
+  - js/libs/jquery.bbq.js
+  - js/libs/Chart.min.js
+  - js/libs/download.js
+  - js/progression_graphs.js
+  - js/classroom.js
+  - js/classroom-management.js
+---
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12" style="margin-bottom: 10px">
+            <div class="row">
+                <div class="col-md-12">
+                    <p>
+                        You are logged into a teacher account, which allows you to manage multiple students grouped together in classes.
+                    </p>
+                    <p>
+                        You can also provide your username and the name of the class to your students, who join the class on their account on the "Profile" page.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+            <li class="active"><a href="#group-overview-tab" data-toggle="tab">Overview</a></li>
+            <li><a href="#group-management-tab" data-toggle="tab">Management</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="group-overview-tab">
+                <div id="group-overview"></div>
+            </div>
+            <div class="tab-pane" id="group-management-tab">
+                <br/>
+                <div id="group-management"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/template" id="team-selection-template">
+      <div class="row" style="margin-top: 10px">
+          <div class="col-md-12">
+            <div class="col-md-6">
+              <div class="panel panel-default">
+                <div class="panel-body">
+                    <div style="margin-left: 5px">
+                        <p>Students can join this classroom by visiting the "Profile" page, and entering the following under "Classroom Membership":</p>
+                        <div>
+                            <p>
+                                <strong>Classroom Name</strong>: <%- groupName %>
+                            </p>
+                            <p>
+                                <strong>Teacher Username</strong>: <%- owner %>
+                            </p>
+                        </div>
+                        <% var registrationLink = document.location.origin + "/#g=" + gid; %>
+                        <!--
+                        <p>Or register with this link to automatically join:</p>
+                        <a href="<%= registrationLink %>"><%= registrationLink %></a>
+                        -->
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+                <%
+
+                function average(data) {
+                    return (_.reduce(data, function(avg, score){ return avg + score; })/data.length).toFixed(2);
+                }
+
+                window.teams = teams;
+                var sortedTeams = _.sortBy(teams, "score");
+                var sortedScores = _.map(sortedTeams, function(team) { return team.score; });
+                var minScore = sortedScores[0];
+                var maxScore = sortedScores[sortedTeams.length - 1];
+                var averageScore = parseInt(average(sortedScores));
+
+                var stdDeviation = Math.pow(
+                _.reduce(_.map(sortedScores, function(score) {
+                    return Math.pow(score - averageScore, 2)
+                }), function(runningTotal, score) {
+                    return runningTotal + score;
+                }) / sortedScores.length, 1/2).toFixed(2);
+
+
+                var categoryData = _.map(sortedTeams, function(team) {
+                    var relevantProblems = _.filter(team.solved_problems, function(problem) { return !problem.disabled; });
+                    return _.groupBy(relevantProblems, "category")
+                });
+                var teamAverages = _.map(categoryData, function(teamProblems) {
+                    return _.mapObject(teamProblems, function(problems) {
+                        var problemScores = _.map(problems, function(problem) { return problem.score; });
+                        return _.reduce(problemScores, function(totalScore, score) { return totalScore + score; }, 0);
+                    })
+                });
+
+                var averageByCategory = _.mapObject(_.reduce(teamAverages, function(total, categories) {
+                _.each(categories, function(score, name) {
+                if(!_.has(total, name)) {
+                            total[name] = [];
+                        }
+                        total[name].push(score)
+                    });
+                    return total;
+                }, {}), average);
+
+                var sortedKeys = _.sortBy(_.keys(averageByCategory));
+                var sortedValues = _.map(sortedKeys, function(key) { return averageByCategory[key]; });
+
+                var data = {
+                    labels: sortedKeys,
+                    datasets: [
+                        {
+                            label: "Class Averages",
+                            backgroundColor: "rgba(220,220,220,0.2)",
+                            borderColor: "rgba(220,220,220,1)",
+                            pointBackgroundColor: "rgba(220,220,220,1)",
+                            pointBorderColor: "#fff",
+                            pointHoverBackgroundColor: "#fff",
+                            pointHoverBorderColor: "rgba(220,220,220,1)",
+                            data: sortedValues
+                        }
+                    ]
+                };
+
+                window.generateRadarData = function(tid) {
+                    var team = _.find(window.teams, function(team) { return tid == team.tid; });
+                    var teamCategoryData = _.mapObject(_.groupBy(team.solved_problems, "category"), function(problems) {
+                        var problemScores = _.map(problems, function(problem) { return problem.score; });
+                        return _.reduce(problemScores, function(totalScore, score) { return totalScore + score; });
+                    })
+                    var teamValues = _.map(sortedKeys, function(key) {
+                        if(_.has(teamCategoryData, key)) { return teamCategoryData[key]; }
+                        else { return 0; }
+                    });
+
+                    var teamData = {
+                        label: team.team_name,
+                        backgroundColor: "rgba(151,187,205,0.2)",
+                        borderColor: "rgba(151,187,205,1)",
+                        pointBackgroundColor: "rgba(151,187,205,1)",
+                        pointBorderColor: "#fff",
+                        pointHoverBackgroundColor: "#fff",
+                        pointHoverBorderColor: "rgba(151,187,205,1)",
+                        data: teamValues
+                    }
+                    var averageData = $.extend(true, {}, data);
+                    averageData.datasets.push(teamData);
+                    return averageData;
+                };
+
+                %>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="col-md-6">
+                            <h4>Overall Stats</h4>
+                            <hr/>
+                            <% if(teams.length > 0) { %>
+                            <p>Min Score: <%= minScore %></p>
+                            <p>Max Score: <%= maxScore %></p>
+                            <p>Avg Score: <%= averageScore %></p>
+                            <p>Std Deviation: <%= stdDeviation %></p>
+                            <% } else { %>
+                            <p>Will update when students join.</p>
+                            <% } %>
+                        </div>
+                        <div class="col-md-6">
+                            <h4>Exporting Data</h4>
+                            <hr/>
+                            <% window.localExportCSV = window.exportProblemCSV.bind(null, groupName, teams); %>
+                            <button type="button" class="btn btn-default" onClick=window.localExportCSV()>Export to CSV</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <% _.each(_.sortBy(teams, "team_name"), function(team) {
+            members = team.members.map(function(member){ return member.username }).join(", ") %>
+            <div class="row">
+              <div class="col-md-12">
+                  <div class="problem panel panel-default">
+                    <div class="panel-heading team-visualization-enabler" expanded data-tid="<%= team.tid %>" data-toggle="collapse" data-target="#<%= (groupName+team.tid).hashCode() %>">
+                        <%- team.team_name %> (<%- members %>) <div class="pull-right"><%- team.competition_active ? team.score : '' %></div>
+                    </div>
+                    <div class="panel-collapse collapse" id="<%= (groupName+team.tid).hashCode() %>">
+                      <div class="panel-body">
+                          <div class="col-md-8">
+                              <h4>Category Performance</h4>
+                               <div id="radar-visualizer-<%- team.tid %>" class="radar-visualizer"/>
+                               <h4>Overall Progression</h4>
+                               <div id="visualizer-<%- team.tid %>" class="team-visualizer"></div>
+                          <% if(team.flagged_submissions.length > 0) { %>
+                          <div class="panel panel-warning">
+                              <div class="panel-heading">Suspicious Submissions</div>
+                              <div class="panel-body">
+                                  <table class="table">
+                                      <thead>
+                                          <tr>
+                                              <th>Problem</th>
+                                              <th>Flag</th>
+                                              <th>Date</th>
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                          <% _.each(team.flagged_submissions, function(submission) { %>
+                                          <tr>
+                                              <td><%- submission.problem_name %></td>
+                                              <td><%- submission.key %></td>
+                                              <td><%- new Date(submission.timestamp["$date"]) %></td>
+                                          </tr>
+                                          <% }) %>
+                                      </tbody>
+                                  </table>
+                                </div>
+                            </div>
+                          <% } %>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="team-information">
+                              <h4>Solved Problems:</h4>
+                              <%
+                              sortedProblems = _.sortBy(team.solved_problems, function(problem) { return -1*problem.solve_time["$date"];})
+                              if(team.solved_problems.length > 0) {
+                              %>
+                              <table class="table table-fixed">
+                                  <thead>
+                                      <tr>
+                                          <th class="col-md-4">Problem</th>
+                                          <th class="col-md-2">Score</th>
+                                          <th class="col-md-6">Date</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                    <% _.each(sortedProblems, function(problem) { %>
+                                    <tr>
+                                        <td class="col-md-4"><%- problem.name %></td>
+                                        <td class="col-md-2"><%- problem.score %></td>
+                                        <td class="col-md-6"><%- new Date(problem.solve_time["$date"]) %></td>
+                                    </tr>
+                                    <% }) %>
+                                  </tbody>
+                                </table>
+                              <% } else { %>
+                                <p>No problems have been solved.</p>
+                              <% } %>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                 </div>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      </div>
+</script>
+
+<script type="text/template" id="group-info-template">
+    <% if (data.length > 0 ) { %>
+        <br/>
+        <ul class="nav nav-tabs nav-tabs-outline" role="tablist" id="class-tabs">
+          <% _.each(data, function(group, index) { %>
+            <li><a href="#group-tab-<%- group.gid %>"
+                   class="group-tab"
+                   data-gid="<%- group.gid %>"
+                   data-group-name="<%- group.name %>"
+                   role="tab" data-toggle="tab">
+                  <%- group.name %>
+                  <% if(window.userStatus && window.userStatus.admin) { %>
+                    <span data-group-name="<%- group.name %>" class="glyphicon glyphicon-remove delete-group-span"></span>
+                  <% } %>
+                </a>
+            </li>
+        <% }); %>
+        <% if(window.userStatus && window.userStatus.admin) { %>
+          <li><a href="#" id="new-class-tab">New Class</a></li>
+        <% } %>
+        </ul>
+        <div class="tab-content">
+          <% _.each(data, function(group, index) { %>
+            <div class="tab-pane tab-pane-outline" id="group-tab-<%- group.gid %>"></div>
+          <% }); %>
+        </div>
+        <% } else {  %>
+          <br/>
+          <div class="row">
+            <div class="col-md-12">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="submit" id="new-class-button">Create a New Classroom</button>
+                </span>
+            </div>
+          </div>
+        <% } %>
+</script>
+
+<script type="text/template" id="new-group-template">
+<p>What do you want your classroom to be called?</p>
+<form role="form" onsubmit="$('#modal-submit-button').click(); return false">
+    <div class="form-group">
+        <input type="text" class="form-control" id="new-group-name" placeholder="Classroom Name">
+    </div>
+</form>
+</script>

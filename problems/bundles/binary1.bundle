@@ -1,0 +1,10 @@
+{
+    "name": "Intro to Classic Binary Exploitation",
+    "author": "Fred Hacker",
+    "organization": "HackLab",
+    "categories": ["Binary Exploitation"],
+    "tags": ["buffer overflow", "easy", "x86"],
+    "problems": ["my-problem", "my-problem-2", "simple-compiled-binary"],
+    "description": "A beginner level binary exploitation problem bundle. Problems do not incorporate modern defenses.",
+    "version": "1.2-0"
+}

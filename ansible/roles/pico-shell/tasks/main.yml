@@ -1,0 +1,42 @@
+---
+# Playbook that installs and configures picoCTF-shell servers
+
+# Needed so picoCTF-web can log in to get deployment information
+- name: Set password for admin user
+  user:
+    name: "{{ ansible_user }}"
+    password: "{{ shell_admin_password_crypt }}"
+  no_log: True
+
+- include: dependencies.yml
+  tags:
+    - network
+    - dependency
+
+- include: shell_manager.yml
+
+- include: nginx.yml
+
+- include: pam_and_services.yml
+
+- include: deploy_problems.yml
+
+- name: Ensure nginx is running
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Copy over 99-motd
+  copy:
+    src: 99-motd
+    dest: /etc/update-motd.d/99-motd
+    owner: root
+    group: root
+    mode: 0755
+
+# Missing
+# journald
+# services
+#   sudo systemctl add-wants default.target shell_manager.target
+# hardening

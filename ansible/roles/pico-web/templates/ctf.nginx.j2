@@ -1,0 +1,70 @@
+# {{ ansible_managed }}
+
+server {
+        server_name {{ nginx_server_name }};
+        listen       80;
+        root  {{ pico_http_dir }};
+
+        ssl_protocols TLSv1.2 TLSv1.1 TLSv1;
+
+        gzip on;
+        gzip_vary on;
+        gzip_disable "msie6";
+        gzip_types    text/plain application/x-javascript text/xml text/css application/json;
+
+        client_max_body_size 3k;
+
+        error_page 404  = /404.html;
+        error_page 401  = /401.html;
+
+        {% if enable_basic_auth -%}
+        satisfy any;
+
+        # allows direct requests from the shell_server
+        allow {{ pico_internal_allow }};
+        deny all;
+
+        # http basic auth
+        auth_basic "Restricted";
+        auth_basic_user_file /etc/nginx/.htpasswd;
+        {% endif %}
+
+        location = / {
+            default_type text/html;
+            index  index.html;
+        }
+
+        location ~ /api/ {
+            # allows internal network requests from shell_server (pam related)
+            proxy_set_header Host {{ flask_app_server_name}};
+
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_pass {{ pico_api_proxy_pass }};
+            proxy_redirect off;
+        }
+
+        location ~ ^/(problems|profile|scoreboard|account|shell|faq|contact)$ {
+            auth_request /api/user/authorize/user;
+            expires -1;
+            default_type text/html;
+            alias {{ pico_http_dir }}/$1.html;
+        }
+
+        location ~ ^/(news|reset)$ {
+            default_type text/html;
+            alias {{ pico_http_dir }}/$1.html;
+        }
+
+        location ~ ^/(classroom)$ {
+            auth_request /api/user/authorize/teacher;
+            default_type text/html;
+            alias {{ pico_http_dir }}/$1.html;
+        }
+
+        location ~ ^/(management)$ {
+            auth_request /api/user/authorize/admin;
+            default_type text/html;
+            alias {{ pico_http_dir }}/$1.html;
+        }
+}

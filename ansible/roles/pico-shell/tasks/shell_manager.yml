@@ -1,0 +1,62 @@
+---
+# Playbook that installs and configures the picoCTF shell_manager from source
+
+# Fix "Invalid environment marker: platform_python_implementation != 'PyPy'"
+- name: Upgrade setuptools
+  pip:
+    name: "setuptools"
+    virtualenv: "{{ virtualenv_dir }}"
+    extra_args: "--upgrade"
+
+# Source was cloned in main
+- name: Install picoCTF-shell-manager from source
+  pip:
+    name: "file://{{ shell_manager_dir }}"
+    virtualenv: "{{ virtualenv_dir }}"
+    extra_args: "--upgrade"
+
+- name: Create symlink for easy sudo access
+  file:
+    src: "{{ virtualenv_dir }}/bin/shell_manager"
+    dest: "/usr/local/bin/shell_manager"
+    state: link
+
+- name: Ensure /opt/hacksports directory exists
+  file:
+    path: /opt/hacksports
+    state: directory
+    owner: root
+    group: root
+
+- name: Add configuration for shell_manager
+  template:
+    src: config.json.j2
+    dest: "/opt/hacksports/config.json"
+    owner: root
+    group: root
+    mode: 0600
+
+# From shell_manager  setup.py data_files
+- name: Ensure extra directory exists
+  file:
+    path: /opt/hacksports/extra
+    state: directory
+    owner: root
+    group: root
+
+- name: Copy no_aslr_wrapper.c to deployed location
+  copy:
+    src:  "no_aslr_wrapper.c"
+    dest: "/opt/hacksports/extra/"
+
+- name: Ensure config directory exists
+  file:
+    path: /opt/hacksports/config
+    state: directory
+    owner: root
+    group: root
+
+- name: Copy securebashrc to deployed location
+  copy:
+    src:  "securebashrc"
+    dest: "/opt/hacksports/config/securebashrc"

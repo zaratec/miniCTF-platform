@@ -1,0 +1,15 @@
+---
+# Playbook that configures a running instance of MongoDB
+# Heavily influenced by: https://github.com/UnderGreen/ansible-role-mongodb
+# Using a subset of @UnderGreen's work
+
+- name: Configure mongodb
+  template:
+    src: mongod.conf.j2
+    dest: "/etc/{{ mongodb_daemon_name}}.conf"
+    backup: yes
+    owner: root
+    group: root
+    mode: 0644
+  notify :
+    - mongodb restart

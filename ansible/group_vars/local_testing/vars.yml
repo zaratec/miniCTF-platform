@@ -1,0 +1,62 @@
+---
+# Variables shared across all local testing hosts
+
+# vagrant/vagrant is the default configuration for Vagrant boxes
+ansible_user:     vagrant
+ansible_ssh_pass: vagrant
+
+# If you are the picoCTF platform remotely you may have a private repository.
+# You likely want to configure a read only deployment key, or a machine key.
+private_repo: True
+deploy_private_key_file: "deploy.picoCTF.private-repo.id_rsa"
+
+##
+# Web settings (env specific)
+##
+web_fqdn: "localhost"
+web_address: "http://10.0.5.10"
+nginx_server_name: "_"
+flask_app_server_name: "{{ web_fqdn }}"
+web_address_internal: "{{ web_address }}"
+
+# optional web automation
+enable_basic_auth:      False
+auto_add_shell:         True
+auto_load_problems:     True
+auto_start_competition: True
+
+
+###
+# Shell Settings (env specific)
+###
+shell_hostname: "10.0.5.11"
+shell_name: Local-Development-Shell   # no spaces
+shell_ip: "{{ shell_hostname }}"
+shell_user: "{{ ansible_user }}"
+shell_pass: "{{ ansible_ssh_pass }}"
+shell_manager_deploy_secret: "**insecure-secret**"
+
+# default insecure "vagrant" password (mkpasswd --method=SHA-512 vagrant)
+shell_admin_password_crypt: "$6$0GcSqMClzx$qEKEiL78VE/Xe0gzuGGuWyUqAlZMObkGnRYwHo4.vSUlvWt6aA7PBH1oGDsOQlykFNScEdEhrirD5oFLOHH011"
+
+
+##
+# Database settings (env specific)
+##
+db_private_ip: 10.0.5.20
+mongodb_conf_auth: True
+picoAdmin_db_password:  "insecure-password"
+picoWeb_db_password:    "insecure-password"
+
+env_db_users:
+  - {
+    name: picoWeb,
+    password: "{{ picoWeb_db_password }}",
+    roles: readWrite,
+    database: "{{ db_name }}"
+  }
+
+##
+# Problem Settings
+# use role defaults (example problems and challenge-sampler bundle)
+##

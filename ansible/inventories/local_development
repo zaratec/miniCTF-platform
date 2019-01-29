@@ -1,0 +1,19 @@
+# Inventory to provision/administer the local development environment
+# Used by the toplevel Vagrantfile
+# Also for manual provisioning when ansible is used within a vm
+
+[local_development:children]
+db
+shell
+web
+
+# In a development environment, or simple deployment collocate the database
+# with the web server
+[db]
+dev_web     ansible_connection=local    hostname=pico-local-dev-web-db
+
+[shell]
+dev_shell   ansible_connection=local    hostname=pico-local-dev-shell
+
+[web]
+dev_web     ansible_connection=local    hostname=pico-local-dev-web-db

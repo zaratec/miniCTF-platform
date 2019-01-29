@@ -1,0 +1,54 @@
+---
+# Playbook that installs and configures the picoCTF API/webapp
+
+- name: Ensure admin user owns pico http dir
+  file:
+    path: "{{ pico_http_dir }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    state: directory
+
+# Fix "Invalid environment marker: platform_python_implementation != 'PyPy'"
+- name: Upgrade setuptools
+  pip:
+    name: "setuptools"
+    virtualenv: "{{ virtualenv_dir }}"
+    extra_args: "--upgrade"
+
+# Source was cloned in main
+- name: Install picoCTF-web api from source
+  pip:
+    name: "file://{{ pico_web_api_dir }}"
+    virtualenv: "{{ virtualenv_dir }}"
+    extra_args: "--upgrade"
+
+- name: Compile CoffeeScript
+  command: "cjsx -bc -o {{ pico_web_js_out_path }} {{ pico_web_coffescript_in_path }}"
+
+# Copy web to another dir before build; this dir should be native on the host
+- name: Synchronize picoCTF-web to a directory on host
+  synchronize:
+    src: "{{ pico_web_api_dir }}/"
+    dest: "{{ web_build_dir }}"
+    delete: yes
+  delegate_to: "{{ inventory_hostname }}"
+
+- name: Run Jekyll to rebuild new web
+  shell: "cd {{ web_build_dir }}/web && jekyll build"
+  become: yes
+
+- name: Ensure admin user owns pico web config dir
+  file:
+    path: "{{ web_config_dir }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    state: directory
+
+- name: Template deployment settings
+  template:
+    src: deploy_settings.py.j2
+    dest: "{{ web_config_dir }}/deploy_settings.py"
+    backup: yes
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+  no_log: True

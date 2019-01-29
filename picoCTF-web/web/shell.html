@@ -1,0 +1,37 @@
+---
+layout: default
+title: Shell
+post_scripts:
+ - js/shell.js
+startup_functions:
+ - redirectIfNotLoggedIn()
+---
+
+<script type="text/template" id="shell-servers-template">
+    <% _.each(servers, function(server){ %>
+      <% var url = server.protocol.toLowerCase() + "://" + server.host + "/shell"; %>
+      <div class="well">
+        <h3 class="text-center"><%- server.host %> - <a href="<%- url %>">Full Screen</a> </h3>
+        <iframe src="<%- url %>" width="100%" height="600px"></iframe>
+      </div>
+    <% }); %>
+</script>
+
+<div class="container">
+  <div class="row">
+    <div class="well">
+      <ul class="text-left">
+        <li>Your login credentials are the same on our website and on the shell server.</li>
+        <li>Duplicate this tab in a new window to see the problems and the shell side by side.</li>
+        <li>To copy from the shell, select text in the shell and press Ctrl-C/Cmd-C.</li>
+        <li>To paste into the shell, right-click in the shell and choose "Paste from browser".</li>
+      </ul>
+      <p class="text-center">
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div id="shell-servers"></div>
+  </div>
+</div>
+

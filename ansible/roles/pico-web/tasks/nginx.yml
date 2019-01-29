@@ -1,0 +1,41 @@
+---
+# Playbook that configures nginx for picoCTF-web
+# This is the base  picoCTF web nginx configuration
+
+- name: Add picoCTF site configuration to nginx
+  template: 
+    src: ctf.nginx.j2
+    dest: "/etc/nginx/sites-available/{{ pico_site_config_name }}"
+    backup: yes
+    owner: root
+    group: root
+    mode: 0644
+  no_log: True
+
+# HTTP Basic Auth used to secure remote testing competition sites
+- name: Setup HTTP basic auth
+  htpasswd:
+    path: "/etc/nginx/.htpasswd"
+    name: "{{ item.user }}"
+    password: "{{ item.password }}"
+    owner: www-data
+    group: www-data
+    mode: 0640
+  no_log: True
+  with_items: "{{ htpasswd_accounts }}"
+  when: enable_basic_auth
+
+- name: Enable picoCTF site configuration
+  file:
+    src: "/etc/nginx/sites-available/{{ pico_site_config_name }}"
+    dest: "/etc/nginx/sites-enabled/{{ pico_site_config_name }}"
+    owner: root
+    group: root
+    state: link
+  notify :
+    - nginx restart
+
+- name: Disable default nginx site configuration
+  file:
+    path: "/etc/nginx/sites-enabled/default"
+    state: absent

@@ -1,0 +1,37 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% if page.title %}{{ site.title }} - {{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
+    {% for css_file in page.css_files %}
+        <link href="{{ css_file }}" rel="stylesheet" media="screen">
+    {% endfor %}
+
+    {% if site.mode == 'production' %}
+        {% include analytics.html %}
+    {% else %}
+        <script language="javascript">var ga = function (a,b,c,d) {}</script>
+    {% endif %}
+
+    <script src="/js/libs/jquery.min.js"></script>
+    <script src="/js/libs/jquery-ui.min.js"></script>
+    <script src="/js/libs/bootstrap.min.js"></script>
+    <script src="/js/libs/react-with-addons.js"></script>
+    <script src="/js/libs/react-bootstrap.min.js"></script>
+
+    <link href="/css/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/libs/jquery-ui.css">
+
+    <link href="/css/libs/bootstrap.min.css" rel="stylesheet">
+
+    <script src="/js/libs/underscore-min.js"></script>
+    <script src="/js/libs/jquery.cookie.min.js"></script>
+    <script src="/js/libs/notify.min.js"></script>
+    <script src="/js/libs/es6.js"></script>
+    <script src="/js/dependencies.js"></script>
+    <script src="/js/navbar.js"></script>
+
+    {% for js_file in page.pre_scripts %}
+        <script src="{{ js_file }}"></script>
+    {% endfor %}
+</head>

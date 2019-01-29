@@ -1,0 +1,74 @@
+<nav class="navbar navbar-inverse navbar-static-top no-margin" role="navigation">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+                <a class="navbar-brand dropdown-toggle" href="/">
+                    CTF <br/> Placeholder
+                </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+            <div id="navbar-links"/>
+        </div>
+    </div>
+</nav>
+
+<script type="text/template" id="navbar-links-template">
+    <div class="collapse navbar-collapse navbar-ex1-collapse row">
+        <div class="col-sm-12">
+            <ul class="nav navbar-nav navbar-right" id="navbar-links">
+            <% _.each(links, function(link, name) { %>
+                <% if(typeof link == "object") {  %>
+                    <%= renderNestedNavbarLinks({
+                    menu_name: name,
+                    links: link,
+                    renderNavbarLinks: renderNavbarLinks,
+                    renderNestedNavbarLinks: renderNestedNavbarLinks
+                    }) %>
+                <% } else { %>
+                    <li><a href="<%= link %>" id="navbar-item-<%= name.split(' ').join('_').toLowerCase() %>"><%- name %></a></li>
+                <% }; %>
+            <% }); %>
+            </ul>
+        </div>
+        <div class="col-sm-3" id="nav-profile-container">
+            <ul class="nav navbar-nav navbar-right" id="navbar-links">
+                <% if(status.logged_in) { %>
+                <li>
+                    <a href="/account" id="navbar-item-account">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span> <%- status.username %>
+                    </a>
+                </li>
+                <li>
+                    <a href="/profile" id="navbar-item-profile">
+                        <span class="glyphicon glyphicon-flash" aria-hidden="true"></span> <%- status.score %>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" id="navbar-item-logout"">Logout</a>
+                </li>
+                <% } %>
+            </ul>
+        </div>
+    </div>
+</script>
+
+<script type="text/template" id="navbar-links-dropdown-template">
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%- menu_name %> <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <%= renderNavbarLinks({
+            links: links,
+            topLevel: false,
+            renderNavbarLinks: renderNavbarLinks,
+            renderNestedNavbarLinks: renderNestedNavbarLinks
+            }) %>
+        </ul>
+    </li>
+</script>

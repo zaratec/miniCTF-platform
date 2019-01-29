@@ -1,0 +1,14 @@
+*.pyc
+*.project
+results.xml
+ghostdriver.log
+.idea
+.vagrant
+web/js/*.js
+web/js/*.map
+web/node_modules/
+web/_site/
+web/_includes/analytics.html
+api/graders/autogentest/instances/*
+api/graders/*
+*~

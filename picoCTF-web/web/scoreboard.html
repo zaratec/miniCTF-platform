@@ -1,0 +1,89 @@
+---
+layout: default
+title: Scoreboard
+post_scripts:
+ - js/progression_graphs.js
+ - js/scoreboard.js
+startup_functions:
+---
+
+<script type="text/javascript" src="/js/libs/Chart.min.js"></script>
+
+<script type="text/template" id="scoreboard-teamscore-template">
+  <div class="pull-right">
+    <h3>Score: <strong><%= teamscore%></strong></h3>
+  </div>
+</script>
+
+<script type="text/template" id="scoreboard-tabs-template">
+  <ul class="nav nav-tabs" id="scoreboard-tabs">
+    <li class="active" data-gid="public"><a data-toggle="tab" href="#public" onClick="window.reloadGraph()">Public</a></li>
+
+    <% _.each(data.groups, function(group, index) { %>
+      <li data-gid="<%= group.gid %>"><a data-toggle="tab" href="#<%= group.gid %>" onClick="window.reloadGraph()"><%- group.name %></a></li>
+    <% }); %>
+
+    <% if(data.ineligible !== undefined) { %>
+      <li data-gid="ineligible"><a data-toggle="tab" href="#ineligible" onClick="window.reloadGraph()">Ineligible</a></li>
+    <% } %>
+  </ul>
+  <div class="tab-content">
+    <div class="row">
+      <div id="public-progression" class="progression-graph"></div>
+    </div>
+    <div id="public" class="tab-pane fade in active">
+      <%= renderScoreboard({scoreboard: data.public}) %>
+    </div>
+    <% _.each(data.groups, function(group, index) { %>
+      <div class="row">
+        <div id="<%= group.gid %>-progression" class="progression-graph"></div>
+      </div>
+      <div id="<%= group.gid %>" class="tab-pane fade">
+        <%= renderScoreboard({scoreboard: group.scoreboard}) %>
+      </div>
+     <% }); %>
+
+      <% if(data.ineligible !== undefined) { %>
+        <div class="row">
+          <div id="ineligible-progression" class="progression-graph"></div>
+        </div>
+        <div id="ineligible" class="tab-pane fade">
+          <%= renderScoreboard({scoreboard: data.ineligible}) %>
+        </div>
+     <% } %>
+  </div>
+</script>
+
+<script type="text/template" id="scoreboard-template">
+  <% if(!($.isEmptyObject(scoreboard))) { %>
+    <table class="table" class="scoreboard-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Team Name</th>
+          <th>Affiliation</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% _.each(scoreboard, function(team, i) { %>
+          <tr>
+            <td><%= i+1 %>.</td>
+            <td><%- team.name %></td>
+            <td><%- team.affiliation %></td>
+            <td><strong><%= team.score %></strong></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  <% } else { %>
+    <pre>
+      <p class="text-center">No teams have scored any points yet.</p>
+    </pre>
+  <% } %>
+</script>
+
+<div class="container">
+  <div id="scoreboard-teamscore"></div>
+  <div id="scoreboard-tabs"></div>
+</div>

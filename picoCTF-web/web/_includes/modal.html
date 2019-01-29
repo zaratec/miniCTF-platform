@@ -1,0 +1,27 @@
+<script type="text/template" id="modal-template">
+    <div class="modal fade" id="confirm-modal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title"><%- title %></h4>
+          </div>
+          <div class="modal-body">
+              <%= message %>
+          </div>
+          <div class="modal-footer">
+            <% if (submitButton != "") { %>
+                <button type="button" class="btn btn-primary" id="modal-submit-button"><%- submitButton %></button>
+            <% } %>
+            <% if (yesButton != "") { %>
+                <button type="button" data-dismiss="modal" class="btn btn-primary" id="modal-yes-button"><%- yesButton %></button>
+            <% } %>
+            <% if (noButton != "") { %>
+                <button type="button" data-dismiss="modal" class="btn" id="modal-no-button"><%- noButton %></button>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+</script>
+<div id="modal-holder"></div>

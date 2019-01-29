@@ -1,0 +1,14 @@
+#!/bin/sh
+
+cat <<EOF
+================================================================================
+Shell server instructions:
+
+- This server is *rebooted* and *reformatted* regularly. Please do not expect
+  any data to persist.
+
+- This server should be used *only* for working on our CTF problems. Any other
+  usage is a violation of our rules.
+================================================================================
+
+EOF

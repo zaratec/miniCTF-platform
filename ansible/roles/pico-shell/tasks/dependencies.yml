@@ -1,0 +1,149 @@
+---
+# Playbook that installs the dependencies for the picoCTF-shell server
+
+- name: Update apt
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+# Extracted from picoCTF-platform/scripts/shell_setup.sh
+- name: Install picoCTF-shell system dependencies
+  apt:
+    state: present
+    name: [
+      'software-properties-common',
+      'xinetd',
+      'dpkg',
+      'dpkg-dev',
+      'fakeroot',
+      'python-virtualenv',
+      'python-pip',       # used for pam module dependencies
+      'python3',          # used by shell_manager
+      'python3-pip',      # used for shell_manager dependencies
+      'python3.6',        # from PPA, to cover all likely interpreter directives
+      'python3.6-dev',
+      'python3.6-venv',
+      'libffi-dev',
+      'libssl-dev',
+      'socat',
+      'php7.0-cli',       # php5 package deprecated
+      'php7.0-sqlite3',   # used to serve shellinabox and challenge binaries
+      'gcc-multilib',
+      'nginx',
+      'shellinabox']
+
+# Needed by templated challenge types
+- name: Install uwsgi and plugins for shell server
+  apt:
+    name: ['uwsgi', 'uwsgi-plugin-php', 'uwsgi-plugin-python3', 'uwsgi-plugin-python', 'python-flask']
+    state: present
+
+- name: Install pam dependencies
+  apt:
+    name: ['libpam-python', 'python-setuptools']
+    state: present
+
+# System python packages updates needed for pam_auth module and Ansible
+- name: Update pyOpenSSL
+  pip:
+    name: pyOpenSSL
+    version: 18.0.0
+
+- name: Update cryptography
+  pip:
+    name: cryptography
+    version: 2.2.2
+
+- name: Install requests
+  pip:
+    name: requests
+    version: 2.19.1
+
+- name: Install python packaging in (new) virtualenv
+  pip:
+    name: packaging
+    virtualenv: "{{ virtualenv_dir }}"
+    virtualenv_python: python3.6
+
+- name: Install python appdirs
+  pip:
+    name: appdirs
+    virtualenv: "{{ virtualenv_dir }}"
+
+# Fix https://github.com/picoCTF/picoCTF/issues/150
+- name: Replace /bin/sh with wrapper script to preserve privilege
+  copy:
+    content: |
+      #!/bin/dash -p
+      exec /bin/dash -p "$@"
+    dest: /bin/sh
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Install common apt packages for CTF shell servers
+  apt:
+    state: present
+    name: [
+      # archive tools
+      'bzip2',
+      'gzip',
+      'tar',
+      'unzip',
+      'zip',
+      # build tools
+      'build-essential',
+      'gdb',
+      'nasm',
+      'perl',
+      'python',
+      'python3',
+      'ruby',
+      # common command line tools
+      'dos2unix',
+      'gawk',
+      'grep',
+      'jq',
+      'realpath',
+      'sed',
+      'silversearcher-ag',
+      # editors
+      'bvi',
+      'emacs-nox',
+      'joe',
+      'nano',
+      'tweak',
+      'vim-nox',
+      # forensics tools
+      'foremost',
+      'scalpel',
+      'sleuthkit',
+      'testdisk',
+      'tshark',
+      # networking tools
+      'curl',
+      'netcat-openbsd',
+      'socat',
+      'traceroute',
+      'wget',
+      # terminal multiplexers
+      'screen',
+      'tmux',
+      # z: misc
+      'expect',
+      'pandoc'] # for `pip install pwntools`
+
+- name: Ensure nano is the default editor
+  alternatives:
+    name: editor
+    path: /bin/nano
+
+- name: Install common pip2 packages for CTF shell servers
+  pip:    # ipython 6.0 dropped support for Python2
+    name: ['ipython<6.0', 'ptpython', 'pwntools']
+
+- name: Install common pip3 packages for CTF shell servers
+  pip:
+    name: ['ipython', 'ptpython', 'pwntools']
+    executable: pip3
+  when: False # pwntools is not ready for python3; skipping to avoid confusion

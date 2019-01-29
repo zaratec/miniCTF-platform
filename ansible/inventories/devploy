@@ -1,0 +1,19 @@
+# Inventory to provision/administer local development environment
+# Use external to the virtual machines (host machine or jump box)
+
+[common:children]
+local_development
+
+[local_development:children]
+db
+shell
+web
+
+[db]
+dev_web     ansible_host={{ lookup('env','WIP') or '192.168.2.2' }}    hostname=pico-local-dev-web-db
+
+[shell]
+dev_shell   ansible_host={{ lookup('env','SIP') or '192.168.2.3' }}    hostname=pico-local-dev-shell
+
+[web]
+dev_web     ansible_host={{ lookup('env','WIP') or '192.168.2.2' }}    hostname=pico-local-dev-web-db

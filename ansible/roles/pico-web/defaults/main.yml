@@ -1,0 +1,54 @@
+---
+# Defaults for the picoCTF-web role. These are the lowest priority variables
+# and can easily be overridden in group_vars, host_vars, or command line
+
+# pico_base_dir set in common.yml
+web_code_dir: "{{pico_base_dir}}/picoCTF-web"
+
+###
+# picoCTF-web and API configuration
+###
+web_build_dir:        "/picoCTF-web-build"
+web_config_dir:       "/picoCTF-web-config"
+pico_web_api_dir:     "{{ web_code_dir }}"
+pico_web_js_out_path: "{{ pico_web_api_dir}}/web/js/"
+pico_web_coffescript_in_path: "{{ pico_web_api_dir}}/web/coffee/"
+pico_web_backup_dir:  "/backup"
+
+###
+# Gunicorn configuration
+##
+gunicorn_user: "{{ ansible_user }}"
+gunicorn_group: "{{ ansible_user }}"
+gunicorn_working_dir: "{{ pico_web_api_dir }}"
+gunicorn_listen_on: "127.0.0.1:8000"
+num_workers: 2
+
+###
+# Nginx configuration
+###
+pico_server_name: "{{ web_fqdn }}"
+pico_http_dir: "/srv/http/ctf"
+pico_api_proxy_pass: "http://{{ gunicorn_listen_on }}"
+pico_site_config_name: "ctf"
+
+# http access and remote specific
+pico_internal_allow: "10.0.1.0/24"
+
+# ctf daemon_manager
+daemon_src_dir: "{{ pico_web_api_dir}}/daemons"
+# Auto Configuration flags
+auto_add_shell: False
+auto_load_problems: False
+
+# Default Shell Server
+shell_name: ""
+shell_ip: ""
+shell_user: ""
+shell_pass: ""
+shell_port: "22"
+shell_proto: "HTTP"
+
+# HTTP Basic Auth
+enable_basic_auth: false
+htpasswd_accounts: []
