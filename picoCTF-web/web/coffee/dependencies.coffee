@@ -26,7 +26,7 @@
       when 1
         if data.data["logged_in"]
           ga('send', 'event', 'Redirect', 'LoggedIn')
-          window.location.href = "/news"
+          window.location.href = "/resources"
 
 @redirectIfTeacher = ->
   apiCall "GET", "/api/user/status", {}

@@ -1,30 +1,30 @@
 apiOffline =
-  News: "/news"
+  Resources: "/resources"
 
 teacherLoggedIn =
   Problems: "/problems"
   Shell: "/shell"
   Scoreboard: "/scoreboard"
   Classroom: "/classroom"
-  News: "/news"
+  Resources: "/resources"
 
 teacherLoggedInNoCompetition =
   Classroom: "/classroom"
-  News: "/news"
+  Resources: "/resources"
 
 userLoggedIn =
   Problems: "/problems"
   Shell: "/shell"
   Scoreboard: "/scoreboard"
-  News: "/news"
+  Resource: "/resources"
 
 userLoggedInNoCompetition =
   Scoreboard: "/scoreboard"
-  News: "/news"
+  Resources: "/resources"
 
 
 userNotLoggedIn =
-  News: "/news"
+  Resources: "/resources"
 
 adminLoggedIn =
   Management: "/management"

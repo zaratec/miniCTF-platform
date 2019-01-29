@@ -26,7 +26,7 @@ class EST(datetime.tzinfo):
 
 
 # Competition Information Placeholder
-competition_name = ""
+competition_name = "Mini CTF"
 competition_urls = [
     "",
 ]
@@ -100,6 +100,7 @@ default_settings = {
         "plugdev",
         "pollinate",
         "proxy",
+        "resources",
         "root",
         "sasl",
         "shadow",

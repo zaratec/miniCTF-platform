@@ -8,8 +8,8 @@ startup_functions:
 ---
 
 <script type="text/template" id="shell-servers-template">
-    <% _.each(servers, function(server){ %>
-      <% var url = server.protocol.toLowerCase() + "://" + server.host + "/shell"; %>
+   <% _.each(servers, function(server){ %>
+      <% var url = server.protocol.toLowerCase() + "://" + server.host + ":2123/shell"; %>
       <div class="well">
         <h3 class="text-center"><%- server.host %> - <a href="<%- url %>">Full Screen</a> </h3>
         <iframe src="<%- url %>" width="100%" height="600px"></iframe>

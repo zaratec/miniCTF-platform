@@ -1,0 +1,15 @@
+.navbar-mini {
+    background-color: #b00;
+    border-color: #666 !important;
+    border-bottom-width: 5px !important;
+}
+
+.navbar a {
+    color: #e0e0e0 !important;
+}
+
+#nav-profile-container a:hover, #navbar-links a:hover {
+    background-color: #a10000;
+}
+
+

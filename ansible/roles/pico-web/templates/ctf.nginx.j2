@@ -51,7 +51,7 @@ server {
             alias {{ pico_http_dir }}/$1.html;
         }
 
-        location ~ ^/(news|reset)$ {
+        location ~ ^/(resources|reset)$ {
             default_type text/html;
             alias {{ pico_http_dir }}/$1.html;
         }
