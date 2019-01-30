@@ -21,6 +21,7 @@ how to fix your JavaScript or where you should put it so it doesn't violate CSP.
 
 * [Cross-site Scripting](https://www.owasp.org/index.php/Cross-site_Scripting_(XSS))
 * [Hacksplaining Cross-Site Scripting](https://www.hacksplaining.com/exercises/xss-stored)
+* [Google XSS Game](https://xss-game.appspot.com/)
 * [XSS Filter Evasion](https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet)
 * [XSS Vectors Cheatsheet](https://gist.github.com/kurobeats/9a613c9ab68914312cbb415134795b45)
 * [What is PHP and why is XSS so common there?](https://www.youtube.com/watch?v=Q2mGcbkX550)
