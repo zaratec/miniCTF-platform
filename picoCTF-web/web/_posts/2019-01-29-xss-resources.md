@@ -1,6 +1,6 @@
 ---
 title:  "XSS Resources"
-date:   2019-02-01 19:00:00
+date:   2019-01-29 22:00:00
 categories: ctfs
 ---
 

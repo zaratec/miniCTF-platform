@@ -1,6 +1,6 @@
 ---
 title:  "SQL Injection Resources"
-date:   2019-02-01 20:00:00
+date:   2019-01-29 21:00:00
 categories: ctfs
 ---
 
@@ -23,23 +23,23 @@ data and observe what is sent.
 In my case, I entered `abc` in the flag submission box on this CTF platform. You can see that
 the request was made to `http://getpwning.com/api/problems/submit` and was a POST request.
 
-{% include image.html url="/img/minictf_network01.png" %}
+![](/img/minictf_network01.png)
 
 If I scroll down a bit, I can see the form data that was submitted. In particular, I see that
 my input `abc` is under the key named `key`. There are also 3 other key-value pairs of data
 sent along with it, `pid`, `method`, and `token`.
 
-{% include image.html url="/img/minictf_network02.png" %}
+![](/img/minictf_network02.png)
 
 To issue the same request using Python, I would run the following script:
 
-```python
+{% highlight python %}
 import requests
 r = requests.post('http://getpwning.com/api/problems/submit', data = {'key':'abc','pid':'???', 'method':'web', 'token':'???'})
 
 # The following gives the response as a string
 r.context     
-```
+{% endhighlight %}
 
 ### Additional Reading
 
