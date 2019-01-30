@@ -1,6 +1,6 @@
 ---
 title:  "Getting started"
-date:   2018-01-01 19:00:00
+date:   2019-02-01 01:00:00
 categories: ctfs
 ---
 

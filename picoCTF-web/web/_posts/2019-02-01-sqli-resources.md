@@ -1,6 +1,6 @@
 ---
 title:  "SQL Injection Resources"
-date:   2018-02-01 20:00:00
+date:   2019-02-01 20:00:00
 categories: ctfs
 ---
 
