@@ -4,6 +4,17 @@
 
 Teach students about blind SQL injection.
 
+## Notes
+
+* Was pretty easy to figure out it was an SQL injection
+* Hardest part was probably writing the Python script
+
+## Guidance
+
+* Make sure students are aware what the SQL query looks like (via `search.php` source)
+* Slides are helpful for understanding how to craft the query
+* Give an example template for Python requests
+
 ## Solution
 
 The website features a search box where users can enter the name of a bagel type
