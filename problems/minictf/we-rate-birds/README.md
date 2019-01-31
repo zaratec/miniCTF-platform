@@ -4,6 +4,22 @@
 
 Teach students about directory traversal and LFI.
 
+## Notes
+
+* Took a bit of time to figure out the path parsing was odd
+* Spent some time thinking about whether `normpath` could be used to craft a path to `flag.txt`
+* Focused a lot on `file`/`filter`-type path prefixes, ignored `dir`-type path prefixes
+* Lot of parts of the source code to think about
+* Believed "can't put filters at the beginning" for a while
+* Tried combining filters rather than directory + filter
+* Avoided tracing source code/understanding it in-depth
+
+## Guidance
+
+* Highlight the importance of understanding how the code parses the path
+* Ask how they would parse a path - does the code do the same? Suggest that something feels off about that.
+* Ask them to trace some example paths through the `getFile` function to get a better understanding.
+
 ## Solution
 
 The website features bird gifs and accompanying descriptions. The main point of
