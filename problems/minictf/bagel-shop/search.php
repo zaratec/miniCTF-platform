@@ -21,7 +21,7 @@
 	  echo "Failed to connect to MySQL: " . mysqli_connect_error();
 	} else {
 	  if (isset($_POST["bagel"])) {
-	    $query = "SELECT * FROM bagels WHERE type='" . $_POST["bagel"] . "'";
+	    $query = "SELECT type,description FROM bagels WHERE type='" . $_POST["bagel"] . "'";
    	    $result = mysqli_query($conn, $query);  /*or die("<br/>" . mysqli_error($conn));*/
 
 	    if ($result) {
