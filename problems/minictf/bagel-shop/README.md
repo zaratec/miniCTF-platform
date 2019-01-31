@@ -8,12 +8,14 @@ Teach students about blind SQL injection.
 
 * Was pretty easy to figure out it was an SQL injection
 * Hardest part was probably writing the Python script
+* If `LIKE` is used, `_` character may mess up since it is the single-character wildcard
 
 ## Guidance
 
 * Make sure students are aware what the SQL query looks like (via `search.php` source)
 * Slides are helpful for understanding how to craft the query
 * Give an example template for Python requests
+* If `LIKE` is being used, `_` may cause issues when getting the flag since it's a single-character wildcard. `\_` should be used instead.
 
 ## Solution
 
