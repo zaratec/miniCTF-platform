@@ -19,4 +19,4 @@ POSTS_SRC_DIR="/picoCTF/picoCTF-web/web/_posts"
 WEB_BUILD_DIR="/picoCTF-web-build/web"
 POSTS_DST_DIR="$WEB_BUILD_DIR/_posts"
 
-ssh -i .vagrant/machines/web/virtualbox/private_key -t vagrant@192.168.2.2 "rm -rf $POSTS_DST_DIR && cp -r $POSTS_SRC_DIR $WEB_BUILD_DIR && cd $WEB_BUILD_DIR && sudo jekyll build"
+ssh -i ../.vagrant/machines/web/virtualbox/private_key -t vagrant@192.168.2.2 "rm -rf $POSTS_DST_DIR && cp -r $POSTS_SRC_DIR $WEB_BUILD_DIR && cd $WEB_BUILD_DIR && sudo jekyll build"

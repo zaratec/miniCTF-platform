@@ -19,11 +19,12 @@ db = client.picoCTF
 # print(db.list_collection_names())			# Lists the tables in the db
 problems = db.problems
 
-sanitized_names = ['chair-snote', 'ceo-snote', 'recoverpw', 'cfo-snote', 'cto-snote']	# Sanitized problem names
-names = ['chair.snote', 'ceo.snote', 'recoverpw', 'cfo.snote', 'cto.snote']				# Original problem names
+sanitized_names = ['bagel-shop', 'we-rate-birds', 'postable']
+# sanitized_names = ['chair-snote', 'ceo-snote', 'recoverpw', 'cfo-snote', 'cto-snote']	# Sanitized problem names
+# names = ['chair.snote', 'ceo.snote', 'recoverpw', 'cfo.snote', 'cto.snote']				# Original problem names 
 # port = [2123, 2123, 2122, 2122, 2122]													# Which machine each problem is located on
 
-local_server = 'http//192.168.2.3'						        # The original local server address
+local_server = '//192.168.2.3'						        # The original local server address
 remote_server ='http://problems.getpwning.com:2123'		# The remote server address to replace with
 
 # Go through each challenge problem (i) and pull its information from the db.
@@ -39,7 +40,7 @@ for i in range(len(sanitized_names)):
 		#instance_number = problems.find_one({'sanitized_name' : sanitized_names[i]})['instances'][j]['instance_number']
 		#new_description = new_description.replace('<code>/problems/', '<code>~/problems/')
 		#new_description = new_description.replace('%s_%d' % (sanitized_names[i], instance_number), names[i])
-		print(new_description)						# Prints the updated description
+		#print(new_description)						# Prints the updated description
 
 		# Update the description in the database.
-		# problems.update({"sanitized_name" : "%s" % sanitized_names[i]}, {"$set": {"instances.%d.description" % j : "%s" % new_description}})
+		problems.update({"sanitized_name" : "%s" % sanitized_names[i]}, {"$set": {"instances.%d.description" % j : "%s" % new_description}})
