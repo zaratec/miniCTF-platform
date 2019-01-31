@@ -7,6 +7,12 @@ categories: ctfs
 Welcome! This post is meant to give some background on approaches and tools in
 web exploitation.
 
+### CTF Guidelines
+
+Challenges can be found on the Problems page. Work with your team to solve the
+challenge and find the flag! Flags will be of format
+`flag{th1s_is_an_ex4mple_fl4g}` or `CTF{th1s_is_an_ex4mple_fl4g}`.
+
 ### Approach
 
 #### Finding points of interest
