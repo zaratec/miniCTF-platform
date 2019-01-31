@@ -19,6 +19,7 @@ Teach students about directory traversal and LFI.
 * Highlight the importance of understanding how the code parses the path
 * Ask how they would parse a path - does the code do the same? Suggest that something feels off about that.
 * Ask them to trace some example paths through the `getFile` function to get a better understanding.
+* Make sure that students find all places in the code where a file can be opened
 
 ## Solution
 
