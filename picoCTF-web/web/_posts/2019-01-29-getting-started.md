@@ -7,6 +7,9 @@ categories: ctfs
 Welcome! This post is meant to give some background on approaches and tools in
 web exploitation.
 
+Here's the [Intro to Web Exploitation lecture slides](https://docs.google.com/presentation/d/1G5Ewk8WNRLxkbywhBARiMco8rXBW6LInJB2Hi-0FvbQ/edit?usp=sharing)
+if you'd like to reference them.
+
 ### CTF Guidelines
 
 Challenges can be found on the Problems page. Work with your team to solve the
