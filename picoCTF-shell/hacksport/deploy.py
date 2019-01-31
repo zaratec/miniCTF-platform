@@ -956,8 +956,9 @@ def remove_instances(path, instance_list):
             deployment_json_path = join(deployment_json_dir,
                                         "{}.json".format(instance_number))
 
-            logger.debug("...Removing xinetd service '%s'.", service)
-            os.remove(join(XINETD_SERVICE_PATH, service))
+            if service != None:
+                logger.debug("...Removing xinetd service '%s'.", service)
+                os.remove(join(XINETD_SERVICE_PATH, service))
 
             logger.debug("...Removing deployment directory '%s'.", directory)
             shutil.rmtree(directory)
