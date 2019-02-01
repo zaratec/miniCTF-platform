@@ -2,7 +2,7 @@
     "name": "Bagel Shop",
     "category": "Web Exploitation",
     "description": "Welcome to The Bagel Shop! Search our inventory to see if your favorite bagels are in stock. <a href=\"http://problems.getpwning.com:7007/\">http://problems.getpwning.com:7007/</a> [Source: {{url_for(\"search.php\")}}]",
-    "score": 50,
+    "score": 100,
     "hints": ["What information does the search give you?","If you use the `LIKE` operator, remember that the character '_' means a single-character wildcard. You'll have to escape it with '\\_'."],
     "author": "zaratec",
     "organization": "PPP"

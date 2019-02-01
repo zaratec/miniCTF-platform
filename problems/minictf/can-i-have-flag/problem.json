@@ -2,7 +2,7 @@
     "name": "Can I Have Flag",
     "category": "Web Exploitation",
     "description": "I found this site that seems to be giving out flags but I can't get one for myself. I hear they're using JWTs. <a href=\"http://problems.getpwning.com:5454/\">http://problems.getpwning.com:5454/</a>",
-    "score": 100,
+    "score": 150,
     "hints": ["I wonder if this is vulnerable to a length extension attack.", "Look for a tool to help you."],
     "author": "zwad3",
     "organization": "PPP"

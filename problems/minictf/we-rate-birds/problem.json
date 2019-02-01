@@ -2,7 +2,7 @@
     "name": "We Rate Birds",
     "category": "Web Exploitation",
     "description": "Your only source for professional bird ratings. <a href=\"http://problems.getpwning.com:9630/\">http://problems.getpwning.com:9630/</a> [<a href=\"http://problems.getpwning.com:9630/@highlight/server/__main__.py\">Source</a>]",
-    "score": 100,
+    "score": 150,
     "hints": ["That path parsing looks weird.", "Trace through some example paths to understand how the parser works."],
     "author": "zwad3",
     "organization": "PPP"

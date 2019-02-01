@@ -19,7 +19,7 @@ db = client.picoCTF
 # print(db.list_collection_names())			# Lists the tables in the db
 problems = db.problems
 
-sanitized_names = ['bagel-shop', 'we-rate-birds', 'postable']
+sanitized_names = ['bagel-shop', 'can-i-have-flag', 'js-safe', 'postable', 'we-rate-birds', 'word-lock']
 # sanitized_names = ['chair-snote', 'ceo-snote', 'recoverpw', 'cfo-snote', 'cto-snote']	# Sanitized problem names
 # names = ['chair.snote', 'ceo.snote', 'recoverpw', 'cfo.snote', 'cto.snote']				# Original problem names 
 # port = [2123, 2123, 2122, 2122, 2122]													# Which machine each problem is located on

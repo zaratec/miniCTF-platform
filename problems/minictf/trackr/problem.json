@@ -1,0 +1,9 @@
+{
+    "name": "Trackr",
+    "category": "Web Exploitation",
+    "description": "To make sure that the ctf is of the highest quality, we've added a bug tracker. We promise to look at your report as quickly as we can! <a href=\"http://problems.getpwning.com:7654/\">http://problems.getpwning.com:7654/</a>",
+    "score": 50,
+    "hints": ["What is sanitized and what is not?"],
+    "author": "zwad3",
+    "organization": "PPP"
+}
