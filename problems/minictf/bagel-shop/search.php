@@ -22,7 +22,7 @@
 	} else {
 	  if (isset($_POST["bagel"])) {
 	    $query = "SELECT type,description FROM bagels WHERE type='" . $_POST["bagel"] . "'";
-   	    $result = mysqli_query($conn, $query);  /*or die("<br/>" . mysqli_error($conn));*/
+   	    $result = mysqli_query($conn, $query);
 
 	    if ($result) {
   	      $rowcount = mysqli_num_rows($result);
