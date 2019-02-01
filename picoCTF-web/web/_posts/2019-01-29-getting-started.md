@@ -59,7 +59,7 @@ For this competition, the main thing you need is a laptop and browser.
 
 You may need Python to perform an attack with multiple requests. If you have 
 Python set up locally, great! If not, this site has a web shell you can access
-[on your browser](http://getpwning.com/shell) or via ssh (`ssh username@157.230.91.253`).
+[on your browser](http://getpwning.com/shell) or via ssh (`ssh username@157.230.91.253 -p 2124`).
 
 #### Developer tools
 
