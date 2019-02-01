@@ -37,7 +37,7 @@ into the database if no settings are already loaded.
 """
 default_settings = {
     "enable_teachers":
-    True,
+    False,
     "enable_feedback":
     True,
 
@@ -48,7 +48,7 @@ default_settings = {
     datetime.datetime.utcnow(),
 
     # COMPETITION INFORMATION
-    "competition_name": "",
+    "competition_name": "Mini CTF",
     "competition_url": "",
 
     # EMAIL WHITELIST
@@ -56,7 +56,7 @@ default_settings = {
 
     # TEAMS
     "max_team_size":
-    1,
+    5,
 
     # ACHIEVEMENTS
     "achievements": {

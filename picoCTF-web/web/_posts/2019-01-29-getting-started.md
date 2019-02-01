@@ -8,13 +8,13 @@ Welcome! This post is meant to give some background on approaches and tools in
 web exploitation.
 
 Here's the [Intro to Web Exploitation lecture slides](https://docs.google.com/presentation/d/1G5Ewk8WNRLxkbywhBARiMco8rXBW6LInJB2Hi-0FvbQ/edit?usp=sharing)
+and [the mini example problems](http://problems.getpwning.com:8000/)
 if you'd like to reference them.
 
 ### CTF Guidelines
 
 Challenges can be found on the Problems page. Work with your team to solve the
-challenge and find the flag! Flags will be of format
-`flag{th1s_is_an_ex4mple_fl4g}` or `CTF{th1s_is_an_ex4mple_fl4g}`.
+challenge and find the flag! Flags will be of format `CTF{th1s_is_an_ex4mple_fl4g}`.
 
 ### Approach
 
