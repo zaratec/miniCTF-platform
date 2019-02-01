@@ -1,9 +1,9 @@
 {
     "name": "Postable",
     "category": "Web Exploitation",
-    "description": "<a href=\"http://problems.getpwning.com:7070/\">http://problems.getpwning.com:7070/</a>",
+    "description": "What if there was a site where you could share your thoughts and ideas with... yourself!!!!! <a href=\"http://problems.getpwning.com:7070/\">http://problems.getpwning.com:7070/</a>",
     "score": 100,
-    "hints": [],
+    "hints": ["Having the dev tools console open may be useful to see errors.", "It looks like they're using some Content Security Policy."],
     "author": "zwad3",
     "organization": "PPP"
 }
