@@ -1,0 +1,9 @@
+{
+    "name": "JS Safe",
+    "category": "Web Exploitation",
+    "description": "I saw a couple of really cool safes written in JavaScript. Maybe this time I can make my own! <a href=\"http://problems.getpwning.com:2266/\">http://problems.getpwning.com:2266/</a>",
+    "score": 100,
+    "hints": [],
+    "author": "zwad3",
+    "organization": "PPP"
+}

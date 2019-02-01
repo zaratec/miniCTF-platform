@@ -1,10 +1,9 @@
 from hacksport.problem import Challenge, File
 
 class Problem(Challenge):
-    files = [File("search.php")]
     
     def generate_flag(self, random):
-        self.flag = "CTF{h4ck_4nd_g3t_b4g3ls}"
+        self.flag = "CTF{i_<3_js}"
         return self.flag
 
     def setup(self):

@@ -1,0 +1,9 @@
+{
+    "name": "Word Lock",
+    "category": "Web Exploitation",
+    "description": "I've hidden the flag in my one-of-a-kind word-lock vault. Instead of a number combo lock, it's a word combo! <a href=\"http://problems.getpwning.com:1337/\">http://problems.getpwning.com:1337/</a> [Source: {{url_for(\"index.php\")}}]",
+    "score": 50,
+    "hints": ["Think about operators that may help you bypass the filters."]
+    "author": "zaratec",
+    "organization": "PPP"
+}
