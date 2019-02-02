@@ -17,6 +17,10 @@ the script to run? Either the code is incorrect or the JavaScript may violate a 
 Security Policy (CSP) directive. Search up what the error says - it may give you a clue
 how to fix your JavaScript or where you should put it so it doesn't violate CSP. 
 
+**How do I receive a request?**
+
+Check out the request inspector part of the tools section!
+
 ### Additional Reading
 
 * [Cross-site Scripting](https://www.owasp.org/index.php/Cross-site_Scripting_(XSS))

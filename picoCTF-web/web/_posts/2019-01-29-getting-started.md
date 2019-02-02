@@ -97,4 +97,5 @@ for Firefox can allow you to inspect and edit cookies.
 HTTP request inspector tools provide a quick and easy alternative to setting up
 your own server when capturing and analyzing traffic. For instance, they may be useful
 when exploiting a **XSS** vulnerability as you can send back the admin's info 
-to the HTTP request inspector.
+to the HTTP request inspector. Try something like [webhook.site](http://webhook.site/),
+[httpresponder.com](http://httpresponder.com/), or search for another!
