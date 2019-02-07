@@ -1,3 +1,26 @@
+# miniCTF
+
+A mod of [the picoCTF platform](https://github.com/picoCTF/picoCTF/) for miniCTF. 
+* Reskinned site for miniCTF
+* Made some tweaks for vagrant machines (web/shell) to be accessible externally
+* Added problem templates/packages
+* Added resources page
+
+## Challenges
+[Problems directory](problems/minictf) contains picoCTF problem template files (see [minictf](https://github.com/zwade/minictf) for the challenge setup files). Each problem has a README including some notes and solution information.
+* [Bagel Shop](problems/minictf/bagel-shop)
+* [Can I Have Flag](problems/minictf/can-i-have-flag)
+* [JS Safe](problems/minictf/js-safe): TODO README
+* [Postable](problems/minictf/postable)
+* [Trackr](problems/minictf/trackr): TODO README
+* [We Rate Birds](problems/minictf/we-rate-birds)
+* [Word Lock](problems/minictf/word-lock): TODO README
+
+## Platform changes
+TODO: Information about the changes made to the platform.
+
+-----
+
 # picoCTF
 
 The picoCTF platform is the infrastructure which is used to run
